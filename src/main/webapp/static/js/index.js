@@ -12,7 +12,7 @@ $(function () {
                 /*存在,就让它选中*/
                 $("#tabs").tabs("select", node.text);
             } else {
-                if (node.url != '' && node.url != null) {
+                if (node.url !== '' && node.url != null) {
                     /*如果不存在 ,添加新标签*/
                     $("#tabs").tabs("add", {
                         title: node.text,

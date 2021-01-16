@@ -9,8 +9,10 @@
 <html>
 <head>
     <title>员工管理</title>
+    <%@include file="/static/common/common.jsp"%>
+    <script src="${pageContext.request.contextPath}/static/js/employee.js"></script>
 </head>
 <body>
-    <h3>员工管理</h3>
+    <table id="dg"></table>
 </body>
 </html>

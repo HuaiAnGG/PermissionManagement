@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wiki.laona.mapper.EmployeeMapper">
+	<resultMap id="BaseResultMap" type="wiki.laona.domain.Employee">
+		<id column="id" jdbcType="BIGINT" property="id"/>
+		<result column="username" jdbcType="VARCHAR" property="username"/>
+		<result column="inputtime" jdbcType="TIMESTAMP" property="inputtime"/>
+		<result column="tel" jdbcType="VARCHAR" property="tel"/>
+		<result column="email" jdbcType="VARCHAR" property="email"/>
+		<result column="state" jdbcType="BIT" property="state"/>
+		<result column="admin" jdbcType="BIT" property="admin"/>
+		<!--<result column="dep_id" jdbcType="BIGINT" property="depId"/>-->
+		<!--
+			columnPrefix="d_" 新的字段前缀
+		-->
+		<association property="department" javaType="Department" columnPrefix="d_">
+			<id column="id" jdbcType="BIGINT" property="id"/>
+			<result property="name" jdbcType="VARCHAR" column="name"/>
+		</association>
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete
+		from employee
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="wiki.laona.domain.Employee">
+		insert into employee (id, username, inputtime,
+		                      tel, email, state, admin,
+		                      dep_id)
+		values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{inputtime,jdbcType=TIMESTAMP},
+		        #{tel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{state,jdbcType=BIT}, #{admin,jdbcType=BIT},
+		        #{depId,jdbcType=BIGINT})
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="wiki.laona.domain.Employee">
+		update employee
+		set username  = #{username,jdbcType=VARCHAR},
+		    inputtime = #{inputtime,jdbcType=TIMESTAMP},
+		    tel       = #{tel,jdbcType=VARCHAR},
+		    email     = #{email,jdbcType=VARCHAR},
+		    state     = #{state,jdbcType=BIT},
+		    admin     = #{admin,jdbcType=BIT},
+		    dep_id    = #{depId,jdbcType=BIGINT}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		select id,
+		       username,
+		       inputtime,
+		       tel,
+		       email,
+		       state,
+		       admin,
+		       dep_id
+		from employee
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select e.id,
+		       e.username,
+		       e.inputtime,
+		       e.tel,
+		       e.email,
+		       e.state,
+		       e.admin,
+		       d.id as d_id,
+		       d.name as d_name
+		from employee as e
+			     left join department d on d.id = e.dep_id
+	</select>
+</mapper>
