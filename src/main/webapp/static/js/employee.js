@@ -11,12 +11,16 @@ $(function () {
             {field: 'email', title: '邮箱', width: 100, align: 'center'},
             {
                 field: 'department', title: '部门', width: 100, align: 'center', formatter: function (value, row, index) {
-                    return value.name;
+                    if (value) {
+                        return value.name;
+                    }
                 }
             },
             {
                 field: 'state', title: '状态', width: 100, align: 'center', formatter: function (value, row, index) {
-                    return row.state ? '<font color="#006400">在职</font>' : '<font color="red">已离职</font>';
+                    if (row.state !== null) {
+                        return row.state ? '<font color="#006400">在职</font>' : '<font color="red">已离职</font>';
+                    }
                 }
             },
             {
@@ -44,23 +48,37 @@ $(function () {
         buttons: [{
             text: '保存',
             handler: function () {
+                // 属性选择器取出隐藏域的id 值
+                var id = $("[name='id']").val();
+                var formSubmitUrl = '/saveEmployee';
+                /*编辑操作*/
+                if (id) {
+                    formSubmitUrl = '/updateEmployee';
+                }
+                var formData = $('#employeeForm').serialize();
+                console.log(formData);
 
                 // 提交表单
                 $('#employeeForm').form('submit', {
-                    url: '/saveEmployee',
+                    url: formSubmitUrl,
                     success: function (data) {
-                        // console.log(data);
-                        data = $.parseJSON(data);
-                        if (data['success']) {
-                            $.messager.alert('温馨提示', data.msg);
-                            // 关闭对话框
-                            $('#dialog').dialog('close');
-                            // 刷新数据
-                            $('#dg').datagrid('reload');
-                        } else {
-                            $.messager.alert('温馨提示', data.msg);
+                        console.log(data);
+                        try {
+                            data = $.parseJSON(data);
+                            if (data['success']) {
+                                $.messager.alert('温馨提示', data.msg);
+                                // 关闭对话框
+                                $('#dialog').dialog('close');
+                                // 刷新数据
+                                $('#dg').datagrid('reload');
+                            } else {
+                                $.messager.alert('温馨提示', data.msg);
+                            }
+                        }catch (err) {
+                            console.log(err);
                         }
-                    }
+                    },
+
                 });
             }
         }, {
@@ -76,13 +94,15 @@ $(function () {
      * 点击按钮事件监听
      */
     $('#add').click(function () {
+        $('#dialog').dialog('setTitle', '添加员工');
         // 清空上次提交的信息
         $('#employeeForm').form('clear');
         // 显示密码框
         $('#password').show();
+        /*取消密码验证*/
+        $("[name='password']").validatebox({required: true});
         // 显示对话框
         $('#dialog').dialog({'closed': false});
-        $('#dialog').dialog('setTitle', '添加员工');
     });
 
     /**
@@ -95,16 +115,30 @@ $(function () {
             $.messager.alert('提示', '请选择一行数据进行编辑!');
             return;
         }
+        /*取消密码验证*/
+        $("[name='password']").validatebox({required: false});
         // 显示对话框
         $('#dialog').dialog('setTitle', '编辑员工');
         $('#dialog').dialog({'closed': false});
         // 处理部门信息、管理员
-        rowData['department.id'] = rowData.department.name;
-        rowData['admin'] = rowData.admin + '';
+        if (rowData.department) {
+            rowData['department.id'] = rowData.department.name;
+        }
+        console.log(rowData);
+        var admin = rowData['admin'];
+        if (admin === null) {
+            rowData['admin'] = null;
+        }else {
+            rowData['admin'] = rowData.admin + '';
+        }
         // 隐藏密码框
         $('#password').hide();
         // 数据回显
         $('#employeeForm').form('load', rowData);
+    });
+
+    $('#reload').click(function () {
+        $('#dg').datagrid('reload');
     });
 
     /**

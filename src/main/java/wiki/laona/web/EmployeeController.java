@@ -3,6 +3,7 @@ package wiki.laona.web;
 import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import wiki.laona.domain.AjaxRes;
@@ -62,5 +63,20 @@ public class EmployeeController {
             resp.setMsg("保存失败！" + e.getMessage());
         }
         return resp;
+    }
+
+    @RequestMapping("/updateEmployee")
+    @ResponseBody
+    public AjaxRes updateEmployee(Employee employee) {
+        AjaxRes ajaxRes = new AjaxRes();
+        try{
+            employeeService.updateEmployee(employee);
+            ajaxRes.setSuccess(true);
+            ajaxRes.setMsg("更新成功!");
+        }catch (Exception ex) {
+            ajaxRes.setSuccess(false);
+            ajaxRes.setMsg("更新失败" + ex.getMessage());
+        }
+        return ajaxRes;
     }
 }

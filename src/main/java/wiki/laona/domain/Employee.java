@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 import org.springframework.format.annotation.DateTimeFormat;
+import org.springframework.lang.Nullable;
 
 import java.util.Date;
 
@@ -27,6 +28,7 @@ public class Employee {
      * @ JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")      转成实体时，规则，时区
      * @ DateTimeFormat(pattern = "yyyy-MM-dd")                      表单提交时候规则
      */
+    @Nullable
     @JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")
     @DateTimeFormat(pattern = "yyyy-MM-dd")
     private Date inputtime;

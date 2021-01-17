@@ -32,16 +32,14 @@
 		        #{tel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{state,jdbcType=BIT}, #{admin,jdbcType=BIT},
 		        #{department.id,jdbcType=BIGINT})
 	</insert>
-	<update id="updateByPrimaryKey" parameterType="wiki.laona.domain.Employee">
+	<update id="updateByPrimaryKey" parameterType="Employee">
 		update employee
 		set username  = #{username,jdbcType=VARCHAR},
-		    password  = #{password,jdbcType=VARCHAR},
 		    inputtime = #{inputtime,jdbcType=TIMESTAMP},
 		    tel       = #{tel,jdbcType=VARCHAR},
 		    email     = #{email,jdbcType=VARCHAR},
-		    state     = #{state,jdbcType=BIT},
 		    admin     = #{admin,jdbcType=BIT},
-		    dep_id    = #{depId,jdbcType=BIGINT}
+		    dep_id    = #{department.id,jdbcType=BIGINT}
 		where id = #{id,jdbcType=BIGINT}
 	</update>
 	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">

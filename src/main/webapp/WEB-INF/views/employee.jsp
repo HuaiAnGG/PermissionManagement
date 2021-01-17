@@ -25,6 +25,8 @@
 <%--对话框--%>
 <div id="dialog">
     <form id="employeeForm">
+        <%--添加一个隐藏域来保存 id 属性--%>
+        <input type="hidden" name="id"/>
         <table align="center" style="border-spacing: 0px 10px;">
             <tr>
                 <td>用户名:</td>
@@ -32,7 +34,7 @@
             </tr>
             <tr id="password">
                 <td>密码:</td>
-                <td><input type="text"  name="password" class="easyui-validatebox" data-options="required:true"></td>
+                <td><input type="text" name="password" class="easyui-validatebox"></td>
             </tr>
             <tr>
                 <td>手机:</td>
@@ -40,11 +42,11 @@
             </tr>
             <tr>
                 <td>邮箱:</td>
-                <td><input type="text" name="email" class="easyui-validatebox" ></td>
+                <td><input type="text" name="email" class="easyui-validatebox"></td>
             </tr>
             <tr>
                 <td>入职日期:</td>
-                <td><input type="text" editable="false" name="inputtime" class="easyui-datebox" ></td>
+                <td><input type="text" editable="false" name="inputtime" class="easyui-datebox"></td>
             </tr>
             <tr>
                 <td>部门:</td>

@@ -49,7 +49,15 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public void save(Employee employee) {
-        System.out.println("employee = " + employee);
         employeeMapper.insert(employee);
+    }
+
+    /**
+     * 更新员工信息
+     * @param employee 员工信息
+     */
+    @Override
+    public void updateEmployee(Employee employee) {
+        employeeMapper.updateByPrimaryKey(employee);
     }
 }

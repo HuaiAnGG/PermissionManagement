@@ -16,13 +16,22 @@ public interface EmployeeService {
 
     /**
      * 查询所有员工
+     *
      * @return {@linkplain PageListRes} 分页结果集
      */
     PageListRes getAllEmployee();
 
     /**
      * 保存员工信息
+     *
      * @param employee 员工信息
      */
     void save(Employee employee);
+
+    /**
+     * 更新员工信息
+     *
+     * @param employee 员工信息
+     */
+    void updateEmployee(Employee employee);
 }
