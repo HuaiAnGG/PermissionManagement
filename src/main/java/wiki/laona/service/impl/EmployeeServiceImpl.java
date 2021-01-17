@@ -60,4 +60,15 @@ public class EmployeeServiceImpl implements EmployeeService {
     public void updateEmployee(Employee employee) {
         employeeMapper.updateByPrimaryKey(employee);
     }
+
+    /**
+     * 更新员工状态信息
+     *
+     * @param id 员工 id
+     */
+    @Override
+    public void updateEmployeeState(Long id) {
+        employeeMapper.updateStateByPrimaryKey(id);
+    }
+
 }

@@ -75,7 +75,8 @@ $(function () {
                                 $.messager.alert('温馨提示', data.msg);
                             }
                         }catch (err) {
-                            console.log(err);
+                            // console.log(err);
+                            $.messager.error('服务器发生异常，请联系管理员', err);
                         }
                     },
 
@@ -106,7 +107,7 @@ $(function () {
     });
 
     /**
-     * 点击按钮事件监听
+     * 点击编辑按钮事件监听
      */
     $('#edit').click(function () {
         // 获取选中
@@ -191,4 +192,40 @@ $(function () {
             });
         }
     })
+
+    /**
+     * 离职按钮事件处理
+     */
+    $('#delete').click(function () {
+        // 获取选中
+        var rowData = $('#dg').datagrid('getSelected');
+        if (!rowData) {
+            $.messager.alert('提示', '请选择一行数据进行编辑!');
+            return;
+        }
+        /*提醒用户是否继续操作*/
+        $.messager.confirm("确认", "是否进行离职操作", function (res) {
+            if (res) {
+                // 继续离职操作
+                $.get('/updateEmployeeState?id=' + rowData.id, function (data) {
+                    console.log(data);
+                    try {
+                        if (data['success']) {
+                            console.log(data);
+                            // 刷新数据
+                            $('#dg').datagrid('reload');
+                            $.messager.alert('温馨提示', data.msg);
+                        } else {
+                            $.messager.alert('温馨提示', data.msg);
+                        }
+                    }catch (err) {
+                        console.log(err);
+                        $.messager.alert('服务器发生异常，请联系管理员', err);
+                    }
+                }, 'json');
+            }else {
+                // 取消操作
+            }
+        });
+    });
 });

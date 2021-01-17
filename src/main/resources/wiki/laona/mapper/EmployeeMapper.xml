@@ -28,7 +28,8 @@
 		insert into employee (id, username, password, inputtime,
 		                      tel, email, state, admin,
 		                      dep_id)
-		values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{inputtime,jdbcType=TIMESTAMP},
+		values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR},
+		        #{inputtime,jdbcType=TIMESTAMP},
 		        #{tel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{state,jdbcType=BIT}, #{admin,jdbcType=BIT},
 		        #{department.id,jdbcType=BIGINT})
 	</insert>
@@ -41,6 +42,11 @@
 		    admin     = #{admin,jdbcType=BIT},
 		    dep_id    = #{department.id,jdbcType=BIGINT}
 		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<update id="updateStateByPrimaryKey">
+		update employee
+		set state = false
+		where id = #{id}
 	</update>
 	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
 		select id,
@@ -64,7 +70,7 @@
 		       e.email,
 		       e.state,
 		       e.admin,
-		       d.id as d_id,
+		       d.id   as d_id,
 		       d.name as d_name
 		from employee as e
 			     left join department d on d.id = e.dep_id

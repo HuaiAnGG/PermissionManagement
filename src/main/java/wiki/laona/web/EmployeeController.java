@@ -3,6 +3,7 @@ package wiki.laona.web;
 import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -69,11 +70,28 @@ public class EmployeeController {
     @ResponseBody
     public AjaxRes updateEmployee(Employee employee) {
         AjaxRes ajaxRes = new AjaxRes();
-        try{
+        try {
             employeeService.updateEmployee(employee);
             ajaxRes.setSuccess(true);
             ajaxRes.setMsg("更新成功!");
-        }catch (Exception ex) {
+        } catch (Exception ex) {
+            ajaxRes.setSuccess(false);
+            ajaxRes.setMsg("更新失败" + ex.getMessage());
+        }
+        return ajaxRes;
+    }
+
+    @RequestMapping("/updateEmployeeState")
+    @ResponseBody
+    public AjaxRes updateEmployeeState(Long id) {
+        System.out.println("EmployeeController.updateEmployeeState");
+        System.out.println("id = " + id);
+        AjaxRes ajaxRes = new AjaxRes();
+        try {
+            employeeService.updateEmployeeState(id);
+            ajaxRes.setSuccess(true);
+            ajaxRes.setMsg("更新成功!");
+        } catch (Exception ex) {
             ajaxRes.setSuccess(false);
             ajaxRes.setMsg("更新失败" + ex.getMessage());
         }
