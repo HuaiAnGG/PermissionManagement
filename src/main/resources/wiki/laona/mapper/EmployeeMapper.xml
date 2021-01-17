@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="wiki.laona.mapper.EmployeeMapper">
-	<resultMap id="BaseResultMap" type="wiki.laona.domain.Employee">
+	<resultMap id="BaseResultMap" type="Employee">
 		<id column="id" jdbcType="BIGINT" property="id"/>
 		<result column="username" jdbcType="VARCHAR" property="username"/>
+		<result column="password" jdbcType="VARCHAR" property="password"/>
 		<result column="inputtime" jdbcType="TIMESTAMP" property="inputtime"/>
 		<result column="tel" jdbcType="VARCHAR" property="tel"/>
 		<result column="email" jdbcType="VARCHAR" property="email"/>
@@ -24,16 +25,17 @@
 		where id = #{id,jdbcType=BIGINT}
 	</delete>
 	<insert id="insert" parameterType="wiki.laona.domain.Employee">
-		insert into employee (id, username, inputtime,
+		insert into employee (id, username, password, inputtime,
 		                      tel, email, state, admin,
 		                      dep_id)
-		values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{inputtime,jdbcType=TIMESTAMP},
+		values (#{id,jdbcType=BIGINT}, #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{inputtime,jdbcType=TIMESTAMP},
 		        #{tel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{state,jdbcType=BIT}, #{admin,jdbcType=BIT},
-		        #{depId,jdbcType=BIGINT})
+		        #{department.id,jdbcType=BIGINT})
 	</insert>
 	<update id="updateByPrimaryKey" parameterType="wiki.laona.domain.Employee">
 		update employee
 		set username  = #{username,jdbcType=VARCHAR},
+		    password  = #{password,jdbcType=VARCHAR},
 		    inputtime = #{inputtime,jdbcType=TIMESTAMP},
 		    tel       = #{tel,jdbcType=VARCHAR},
 		    email     = #{email,jdbcType=VARCHAR},
@@ -45,6 +47,7 @@
 	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
 		select id,
 		       username,
+		       password,
 		       inputtime,
 		       tel,
 		       email,
@@ -57,6 +60,7 @@
 	<select id="selectAll" resultMap="BaseResultMap">
 		select e.id,
 		       e.username,
+		       e.password,
 		       e.inputtime,
 		       e.tel,
 		       e.email,

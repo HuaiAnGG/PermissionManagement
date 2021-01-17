@@ -20,6 +20,8 @@ public class Employee {
 
     private String username;
 
+    private String password;
+
     /**
      * 入职时间
      * @ JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")      转成实体时，规则，时区

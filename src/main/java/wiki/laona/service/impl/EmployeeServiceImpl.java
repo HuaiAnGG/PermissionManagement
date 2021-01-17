@@ -5,6 +5,7 @@ import com.github.pagehelper.PageHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import wiki.laona.domain.Department;
 import wiki.laona.domain.Employee;
 import wiki.laona.domain.PageListRes;
 import wiki.laona.mapper.EmployeeMapper;
@@ -31,7 +32,7 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public PageListRes getAllEmployee() {
         // 分页查询
-        Page<Employee> page = PageHelper.startPage(1, 5);
+        Page<Employee> page = PageHelper.startPage(1, 10);
         // 调用 mapper 查询数据库
         List<Employee> employees = employeeMapper.selectAll();
         // 封装成 PageListRes 实体
@@ -39,5 +40,16 @@ public class EmployeeServiceImpl implements EmployeeService {
         pageListRes.setTotal(page.getTotal());
         pageListRes.setRows(employees);
         return pageListRes;
+    }
+
+    /**
+     * 保存员工信息
+     *
+     * @param employee 员工信息
+     */
+    @Override
+    public void save(Employee employee) {
+        System.out.println("employee = " + employee);
+        employeeMapper.insert(employee);
     }
 }

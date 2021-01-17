@@ -1,6 +1,10 @@
 package wiki.laona.service;
 
+import wiki.laona.domain.Department;
+import wiki.laona.domain.Employee;
 import wiki.laona.domain.PageListRes;
+
+import java.util.List;
 
 /**
  * @program: PermissionManagement
@@ -15,4 +19,10 @@ public interface EmployeeService {
      * @return {@linkplain PageListRes} 分页结果集
      */
     PageListRes getAllEmployee();
+
+    /**
+     * 保存员工信息
+     * @param employee 员工信息
+     */
+    void save(Employee employee);
 }
