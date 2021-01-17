@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 import wiki.laona.domain.Department;
 import wiki.laona.domain.Employee;
 import wiki.laona.domain.PageListRes;
+import wiki.laona.domain.QueryVo;
 import wiki.laona.mapper.EmployeeMapper;
 import wiki.laona.service.EmployeeService;
 
@@ -30,11 +31,11 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeMapper employeeMapper;
 
     @Override
-    public PageListRes getAllEmployee() {
+    public PageListRes getAllEmployee(QueryVo vo) {
         // 分页查询
-        Page<Employee> page = PageHelper.startPage(1, 10);
+        Page<Employee> page = PageHelper.startPage(vo.getPage(), vo.getRows());
         // 调用 mapper 查询数据库
-        List<Employee> employees = employeeMapper.selectAll();
+        List<Employee> employees = employeeMapper.selectAll(vo);
         // 封装成 PageListRes 实体
         PageListRes pageListRes = new PageListRes();
         pageListRes.setTotal(page.getTotal());

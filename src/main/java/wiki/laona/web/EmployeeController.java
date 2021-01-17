@@ -7,10 +7,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import wiki.laona.domain.AjaxRes;
-import wiki.laona.domain.Department;
-import wiki.laona.domain.Employee;
-import wiki.laona.domain.PageListRes;
+import wiki.laona.domain.*;
 import wiki.laona.service.EmployeeService;
 
 import java.util.List;
@@ -44,8 +41,9 @@ public class EmployeeController {
      */
     @ResponseBody
     @RequestMapping("/employeeList")
-    public PageListRes employeeList() {
-        return employeeService.getAllEmployee();
+    public PageListRes employeeList(QueryVo vo) {
+        System.out.println("vo = " + vo);
+        return employeeService.getAllEmployee(vo);
     }
 
 
@@ -54,7 +52,6 @@ public class EmployeeController {
     public AjaxRes saveEmployee(Employee employee) {
         AjaxRes resp = new AjaxRes();
         try {
-            System.out.println("employee = " + employee);
             employee.setState(true);
             employeeService.save(employee);
             resp.setSuccess(true);
@@ -84,8 +81,6 @@ public class EmployeeController {
     @RequestMapping("/updateEmployeeState")
     @ResponseBody
     public AjaxRes updateEmployeeState(Long id) {
-        System.out.println("EmployeeController.updateEmployeeState");
-        System.out.println("id = " + id);
         AjaxRes ajaxRes = new AjaxRes();
         try {
             employeeService.updateEmployeeState(id);

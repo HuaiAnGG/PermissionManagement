@@ -13,12 +13,16 @@
     <script src="${pageContext.request.contextPath}/static/js/employee.js"></script>
 </head>
 <body>
+
 <%--工具菜单--%>
 <div id="tb">
     <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-add',plain:true" id="add">添加</a>
     <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-edit',plain:true" id="edit">编辑</a>
     <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-remove',plain:true" id="delete">离职</a>
     <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:true" id="reload">刷新</a>
+    <%--搜索框--%>
+    <input type="text" name="keyword" style="width: 200px; height: 30px;padding-left: 5px;">
+    <a class="easyui-linkbutton" iconCls="icon-search" id="searchbtn">查询</a>
 </div>
 <%--数据表格--%>
 <table id="dg"></table>

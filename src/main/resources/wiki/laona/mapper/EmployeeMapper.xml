@@ -61,18 +61,30 @@
 		from employee
 		where id = #{id,jdbcType=BIGINT}
 	</select>
+	<!--模糊查询(搜索关键字)-->
+	<sql id="where_sql">
+		<where>
+			<if test="keyword!=null and keyword!=''">
+				and e.username like concat('%', #{keyword}, '%')
+				or e.email like concat('%', #{keyword}, '%')
+				or e.tel like concat('%', #{keyword}, '%')
+			</if>
+		</where>
+	</sql>
 	<select id="selectAll" resultMap="BaseResultMap">
 		select e.id,
-		       e.username,
-		       e.password,
-		       e.inputtime,
-		       e.tel,
-		       e.email,
-		       e.state,
-		       e.admin,
-		       d.id   as d_id,
-		       d.name as d_name
+		e.username,
+		e.password,
+		e.inputtime,
+		e.tel,
+		e.email,
+		e.state,
+		e.admin,
+		d.id as d_id,
+		d.name as d_name
 		from employee as e
-			     left join department d on d.id = e.dep_id
+		left join department d on d.id = e.dep_id
+		<include refid="where_sql"/>
+		order by e.id
 	</select>
 </mapper>

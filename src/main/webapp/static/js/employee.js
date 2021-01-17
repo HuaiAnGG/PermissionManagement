@@ -39,9 +39,9 @@ $(function () {
         onClickRow: function (rowIndex, rowData) {
             /*判断是否已经离职，离职则不能继续点击离职按钮*/
             if (rowData.state) {
-                $('#delete').linkbutton({'disabled': false});
+                $('#delete').linkbutton('enable');
             } else {
-                $('#delete').linkbutton({'disabled': true});
+                $('#delete').linkbutton('disable');
             }
         }
     });
@@ -146,8 +146,14 @@ $(function () {
         $('#employeeForm').form('load', rowData);
     });
 
+    /**
+     * 刷新按钮事件监听
+     */
     $('#reload').click(function () {
-        $('#dg').datagrid('reload');
+        // 清空搜索栏
+        $("[name='keyword']").val('');
+        // 重新加载所有数据
+        $('#dg').datagrid('load', {});
     });
 
     /**
@@ -235,5 +241,15 @@ $(function () {
                 // 取消操作
             }
         });
+    });
+
+    /*搜索按钮事件处理*/
+    $('#searchbtn').click(function () {
+        /*获取搜索关键字*/
+        var keyword = $("[name='keyword']").val();
+        /**
+         * 把搜索关键字传到对应 url
+         */
+        $('#dg').datagrid('load', {keyword: keyword});
     });
 });

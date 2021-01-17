@@ -3,6 +3,7 @@ package wiki.laona.service;
 import wiki.laona.domain.Department;
 import wiki.laona.domain.Employee;
 import wiki.laona.domain.PageListRes;
+import wiki.laona.domain.QueryVo;
 
 import java.util.List;
 
@@ -19,7 +20,7 @@ public interface EmployeeService {
      *
      * @return {@linkplain PageListRes} 分页结果集
      */
-    PageListRes getAllEmployee();
+    PageListRes getAllEmployee(QueryVo v0);
 
     /**
      * 保存员工信息
