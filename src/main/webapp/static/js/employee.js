@@ -30,6 +30,7 @@ $(function () {
         rownumbers: true,
         pagination: true,
         singleSelect: true,
+        striped: true,
         toolbar: '#tb'
     });
 
@@ -40,9 +41,10 @@ $(function () {
         width: 350,
         height: 350,
         closed: true,
-        buttons:[{
-            text:'保存',
-            handler:function(){
+        buttons: [{
+            text: '保存',
+            handler: function () {
+
                 // 提交表单
                 $('#employeeForm').form('submit', {
                     url: '/saveEmployee',
@@ -55,15 +57,15 @@ $(function () {
                             $('#dialog').dialog('close');
                             // 刷新数据
                             $('#dg').datagrid('reload');
-                        }else {
+                        } else {
                             $.messager.alert('温馨提示', data.msg);
                         }
                     }
                 });
             }
-        },{
-            text:'关闭',
-            handler:function(){
+        }, {
+            text: '关闭',
+            handler: function () {
                 $('#dialog').dialog('close');
             }
         }]
@@ -74,17 +76,35 @@ $(function () {
      * 点击按钮事件监听
      */
     $('#add').click(function () {
+        // 清空上次提交的信息
+        $('#employeeForm').form('clear');
+        // 显示密码框
+        $('#password').show();
+        // 显示对话框
         $('#dialog').dialog({'closed': false});
+        $('#dialog').dialog('setTitle', '添加员工');
     });
 
     /**
      * 点击按钮事件监听
      */
     $('#edit').click(function () {
-        // 清空上次提交的信息
-        $('#employeeForm').form('clear');
+        // 获取选中
+        var rowData = $('#dg').datagrid('getSelected');
+        if (!rowData) {
+            $.messager.alert('提示', '请选择一行数据进行编辑!');
+            return;
+        }
         // 显示对话框
+        $('#dialog').dialog('setTitle', '编辑员工');
         $('#dialog').dialog({'closed': false});
+        // 处理部门信息、管理员
+        rowData['department.id'] = rowData.department.name;
+        rowData['admin'] = rowData.admin + '';
+        // 隐藏密码框
+        $('#password').hide();
+        // 数据回显
+        $('#employeeForm').form('load', rowData);
     });
 
     /**

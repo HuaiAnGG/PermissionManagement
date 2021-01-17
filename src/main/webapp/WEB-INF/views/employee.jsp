@@ -30,9 +30,9 @@
                 <td>用户名:</td>
                 <td><input type="text" name="username" class="easyui-validatebox" data-options="required:true"></td>
             </tr>
-            <tr>
+            <tr id="password">
                 <td>密码:</td>
-                <td><input type="text" name="password" class="easyui-validatebox" data-options="required:true"></td>
+                <td><input type="text"  name="password" class="easyui-validatebox" data-options="required:true"></td>
             </tr>
             <tr>
                 <td>手机:</td>
