@@ -35,7 +35,15 @@ $(function () {
         pagination: true,
         singleSelect: true,
         striped: true,
-        toolbar: '#tb'
+        toolbar: '#tb',
+        onClickRow: function (rowIndex, rowData) {
+            /*判断是否已经离职，离职则不能继续点击离职按钮*/
+            if (rowData.state) {
+                $('#delete').linkbutton({'disabled': false});
+            } else {
+                $('#delete').linkbutton({'disabled': true});
+            }
+        }
     });
 
     /**
@@ -74,7 +82,7 @@ $(function () {
                             } else {
                                 $.messager.alert('温馨提示', data.msg);
                             }
-                        }catch (err) {
+                        } catch (err) {
                             // console.log(err);
                             $.messager.error('服务器发生异常，请联系管理员', err);
                         }
@@ -129,7 +137,7 @@ $(function () {
         var admin = rowData['admin'];
         if (admin === null) {
             rowData['admin'] = null;
-        }else {
+        } else {
             rowData['admin'] = rowData.admin + '';
         }
         // 隐藏密码框
@@ -218,12 +226,12 @@ $(function () {
                         } else {
                             $.messager.alert('温馨提示', data.msg);
                         }
-                    }catch (err) {
+                    } catch (err) {
                         console.log(err);
                         $.messager.alert('服务器发生异常，请联系管理员', err);
                     }
                 }, 'json');
-            }else {
+            } else {
                 // 取消操作
             }
         });
