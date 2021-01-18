@@ -9,6 +9,7 @@ import wiki.laona.domain.PageListRes;
 import wiki.laona.domain.Permission;
 import wiki.laona.domain.QueryVo;
 import wiki.laona.domain.Role;
+import wiki.laona.mapper.PermissionMapper;
 import wiki.laona.mapper.RoleMapper;
 import wiki.laona.service.RoleService;
 
@@ -57,6 +58,32 @@ public class RoleServiceImpl implements RoleService {
         for (Permission permission : role.getPermissions()) {
             roleMapper.insertRoleAndPermissionRel(role.getRid(), permission.getPid());
         }
+    }
+
+    /**
+     * 更新角色权限
+     *
+     * @param role
+     */
+    @Override
+    public void updateRole(Role role) {
+        roleMapper.updateByPrimaryKey(role);
+        roleMapper.deleteRoleAndPermissionRelByRid(role.getRid());
+        // 保存权限
+        for (Permission permission : role.getPermissions()) {
+            roleMapper.insertRoleAndPermissionRel(role.getRid(), permission.getPid());
+        }
+    }
+
+    /**
+     * 删除角色权限和关系
+     *
+     * @param rid 角色 id
+     */
+    @Override
+    public void deleteRoleByRid(Long rid) {
+        roleMapper.deleteRoleAndPermissionRelByRid(rid);
+        roleMapper.deleteByPrimaryKey(rid);
     }
 
 }

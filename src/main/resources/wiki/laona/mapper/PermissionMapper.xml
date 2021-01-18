@@ -30,4 +30,15 @@
 		select pid, pname, presource
 		from permission
 	</select>
+
+	<!--根据角色 id 获取所有权限-->
+	<select id="selectPermissionByRid" resultType="Permission">
+		select *
+		from permission
+		where pid in (
+			select pid
+			from role_permisson_rel
+			where rid = #{rid}
+		)
+	</select>
 </mapper>

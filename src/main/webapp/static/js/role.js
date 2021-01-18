@@ -22,13 +22,18 @@ $(function () {
      */
     $('#dialog').dialog({
         width: 600,
-        height: 480,
+        height: 450,
         closed: true,
         buttons: [{
             text: '保存',
             handler: function () {
+                var submitUrl = '/saveRole';
+                var rid = $("[name='rid']").val();
+                if (rid){
+                    submitUrl = '/updateRole';
+                }
                 $('#myform').form('submit', {
-                    url: '/saveRole',
+                    url: submitUrl,
                     onSubmit: function (param) {         /*提交前的操作操作*/
                         var allRows = $('#role_data2').datagrid('getRows');
                         for (let i = 0; i < allRows.length; i++) {
@@ -126,6 +131,63 @@ $(function () {
      * 编辑按钮事件处理
      */
     $('#edit').click(function () {
-        
+        // 获取选中
+        var rowData = $('#role_dg').datagrid('getSelected');
+        if (!rowData) {
+            $.messager.alert('提示', '请选择一行数据进行编辑!');
+            return;
+        }
+
+        /**
+         * 数据回显
+         * rowData
+         * {rid: 4, rnum: "manager2", rname: "经理2", permissions: Array(0)}
+         */
+        $("[name='rid']").val(rowData.rid);
+        $("[name='rnum']").val(rowData.rnum);
+        $("[name='rname']").val(rowData.rname);
+        // 加载 role_data2 的数据
+        var options = $('#role_data2').datagrid('options');
+        // 填写 options 的 url
+        options.url = '/getPermissionByRid?rid=' + rowData.rid;
+        // 重新加载 role_data2 的数据
+        $('#role_data2').datagrid('load');
+        // 显示对话框
+        $('#dialog').dialog('setTitle', '编辑角色');
+        $('#dialog').dialog('open');
+    });
+
+    /**
+     * 删除按钮事件处理
+     */
+    $('#delete').click(function () {
+        // 获取选中
+        var rowData = $('#role_dg').datagrid('getSelected');
+        if (!rowData) {
+            $.messager.alert('提示', '请选择一行数据进行编辑!');
+            return;
+        }
+        /*提醒用户是否继续操作*/
+        $.messager.confirm("确认", "是否删除该角色", function (res) {
+            if (res) {
+                // 继续离职操作
+                $.get('/deleteRole?rid=' + rowData.rid, function (data) {
+                    try {
+                        if (data['success']) {
+                            // 刷新数据
+                            $('#role_dg').datagrid('reload');
+                            $.messager.alert('温馨提示', data.msg);
+                        } else {
+                            $.messager.alert('温馨提示', data.msg);
+                        }
+                    } catch (err) {
+                        console.log(err);
+                        $.messager.alert('服务器发生异常，请联系管理员', err);
+                    }
+                }, 'json');
+            } else {
+                // 取消操作
+            }
+        });
     });
 });

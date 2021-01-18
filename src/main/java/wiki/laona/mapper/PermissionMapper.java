@@ -16,4 +16,12 @@ public interface PermissionMapper {
     List<Permission> selectAll();
 
     int updateByPrimaryKey(Permission record);
+
+    /**
+     * 根据角色 id 获取所有权限
+     *
+     * @param rid 角色id
+     * @return 权限列表
+     */
+    List<Permission> selectPermissionByRid(Long rid);
 }

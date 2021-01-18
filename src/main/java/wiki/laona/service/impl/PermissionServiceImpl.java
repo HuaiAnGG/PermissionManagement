@@ -29,4 +29,16 @@ public class PermissionServiceImpl implements PermissionService {
         List<Permission> permissionList = permissionMapper.selectAll();
         return permissionList;
     }
+
+    /**
+     * 根据角色 id 获取所有权限
+     *
+     * @param rid 角色id
+     * @return 权限列表
+     */
+    @Override
+    public List<Permission> getAllPermissionById(Long rid) {
+        List<Permission> permissions = permissionMapper.selectPermissionByRid(rid);
+        return permissions;
+    }
 }

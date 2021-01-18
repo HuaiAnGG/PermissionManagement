@@ -11,6 +11,12 @@
 		from role
 		where rid = #{rid,jdbcType=BIGINT}
 	</delete>
+	<!--根据角色id 删除所有关系表中的数据-->
+	<delete id="deleteRoleAndPermissionRelByRid">
+		delete
+		from role_permisson_rel
+		where rid = #{rid,jdbcType=BIGINT}
+	</delete>
 	<insert id="insert" parameterType="wiki.laona.domain.Role" useGeneratedKeys="true" keyColumn="rid"
 	        keyProperty="rid">
 		insert into role (rid, rnum, rname)
@@ -21,6 +27,10 @@
 		insert into role_permisson_rel(rid, pid)
 		values (#{rid}, #{pid})
 	</insert>
+	<!--更新角色和权限关系-->
+	<!--<insert id="updateRoleAndPermissionRel">-->
+	<!--	update role_permisson_rel set rid = #{rid}, pid = #{pid} where -->
+	<!--</insert>-->
 	<update id="updateByPrimaryKey" parameterType="wiki.laona.domain.Role">
 		update role
 		set rnum  = #{rnum,jdbcType=VARCHAR},

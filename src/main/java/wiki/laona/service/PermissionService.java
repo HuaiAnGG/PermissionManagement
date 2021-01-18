@@ -17,4 +17,11 @@ public interface PermissionService {
      * @return 所有权限
      */
     List<Permission> getAllPermission();
+
+    /**
+     * 根据角色 id 获取所有权限
+     * @param rid 角色id
+     * @return 权限列表
+     */
+    List<Permission> getAllPermissionById(Long rid);
 }

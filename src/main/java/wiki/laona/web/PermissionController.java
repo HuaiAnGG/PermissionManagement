@@ -26,4 +26,10 @@ public class PermissionController {
     public List<Permission> getAllPermissionList() {
         return permissionService.getAllPermission();
     }
+
+    @RequestMapping("/getPermissionByRid")
+    @ResponseBody
+    public List<Permission> getPermissionByRid(Long rid) {
+        return permissionService.getAllPermissionById(rid);
+    }
 }

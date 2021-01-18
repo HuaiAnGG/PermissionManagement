@@ -25,4 +25,10 @@ public interface RoleMapper {
      * @param pid 权限id
      */
     void insertRoleAndPermissionRel(@Param("rid") Long rid, @Param("pid") Long pid);
+
+    /**
+     * 根据角色id 删除所有关系表中的数据
+     * @param rid 角色id
+     */
+    void deleteRoleAndPermissionRelByRid(Long rid);
 }

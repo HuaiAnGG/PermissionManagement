@@ -26,4 +26,16 @@ public interface RoleService {
      * @param role 角色实体
      */
     void saveRole(Role role);
+
+    /**
+     * 更新角色权限
+     * @param role 角色实体
+     */
+    void updateRole(Role role);
+
+    /**
+     * 删除角色权限和关系
+     * @param rid 角色 id
+     */
+    void deleteRoleByRid(Long rid);
 }

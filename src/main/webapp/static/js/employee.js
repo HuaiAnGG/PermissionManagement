@@ -63,9 +63,6 @@ $(function () {
                 if (id) {
                     formSubmitUrl = '/updateEmployee';
                 }
-                var formData = $('#employeeForm').serialize();
-                console.log(formData);
-
                 // 提交表单
                 $('#employeeForm').form('submit', {
                     url: formSubmitUrl,

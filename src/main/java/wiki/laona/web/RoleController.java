@@ -49,4 +49,38 @@ public class RoleController {
         }
         return resp;
     }
+
+    @RequestMapping("/updateRole")
+    @ResponseBody
+    public AjaxRes updateRole(Role role) {
+        AjaxRes resp = new AjaxRes();
+        try {
+            // 调用业务层，保存角色
+            roleService.updateRole(role);
+            resp.setSuccess(true);
+            resp.setMsg("更新成功！");
+        } catch (Exception e) {
+            resp.setSuccess(false);
+            resp.setMsg("更新失败！" + e.getMessage());
+        }
+        return resp;
+    }
+
+
+    @RequestMapping("/deleteRole")
+    @ResponseBody
+    public AjaxRes deleteRole(Long rid) {
+        System.out.println("rid = " + rid);
+        AjaxRes resp = new AjaxRes();
+        try {
+            // 调用业务层，保存角色
+            roleService.deleteRoleByRid(rid);
+            resp.setSuccess(true);
+            resp.setMsg("更新角色成功！");
+        } catch (Exception e) {
+            resp.setSuccess(false);
+            resp.setMsg("更新角色失败！" + e.getMessage());
+        }
+        return resp;
+    }
 }
