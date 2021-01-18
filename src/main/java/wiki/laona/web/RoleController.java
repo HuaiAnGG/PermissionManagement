@@ -1,7 +1,14 @@
 package wiki.laona.web;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import wiki.laona.domain.AjaxRes;
+import wiki.laona.domain.PageListRes;
+import wiki.laona.domain.QueryVo;
+import wiki.laona.domain.Role;
+import wiki.laona.service.RoleService;
 
 /**
  * @program: PermissionManagement
@@ -12,8 +19,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 public class RoleController {
 
+    @Autowired
+    private RoleService roleService;
+
     @RequestMapping("/role")
     public String role() {
         return "role";
+    }
+
+    @RequestMapping("/roleList")
+    @ResponseBody
+    public PageListRes roleList(QueryVo vo) {
+        // 调用业务层，查询角色列表
+        return roleService.getAllRole(vo);
+    }
+
+    @RequestMapping("/saveRole")
+    @ResponseBody
+    public AjaxRes saveRole(Role role) {
+        AjaxRes resp = new AjaxRes();
+        try {
+            // 调用业务层，保存角色
+            roleService.saveRole(role);
+            resp.setSuccess(true);
+            resp.setMsg("保存成功！");
+        } catch (Exception e) {
+            resp.setSuccess(false);
+            resp.setMsg("保存失败！" + e.getMessage());
+        }
+        return resp;
     }
 }

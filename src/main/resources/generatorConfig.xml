@@ -100,6 +100,8 @@
 		</javaClientGenerator>
 		
 		<!--<table tableName="employee"></table>-->
-		<table tableName="department"></table>
+		<!--<table tableName="department"></table>-->
+		<table tableName="role"></table>
+		<table tableName="permission"></table>
 	</context>
 </generatorConfiguration>
