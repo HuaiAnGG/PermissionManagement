@@ -24,7 +24,13 @@
 		from employee
 		where id = #{id,jdbcType=BIGINT}
 	</delete>
-	<insert id="insert" parameterType="wiki.laona.domain.Employee">
+	<!--解除员工和角色关系外键-->
+	<delete id="deleteEmployeeRoleRelByEid">
+		delete
+		from role_employee_rel
+		where eid = #{eid}
+	</delete>
+	<insert id="insert" parameterType="Employee" useGeneratedKeys="true" keyProperty="id" keyColumn="id">
 		insert into employee (id, username, password, inputtime,
 		                      tel, email, state, admin,
 		                      dep_id)
@@ -32,6 +38,11 @@
 		        #{inputtime,jdbcType=TIMESTAMP},
 		        #{tel,jdbcType=VARCHAR}, #{email,jdbcType=VARCHAR}, #{state,jdbcType=BIT}, #{admin,jdbcType=BIT},
 		        #{department.id,jdbcType=BIGINT})
+	</insert>
+	<!--往员工角色关系表中插入对应关系-->
+	<insert id="insertEmployeeAndRoleRel">
+		insert into role_employee_rel(eid, rid)
+		values (#{eid}, #{rid})
 	</insert>
 	<update id="updateByPrimaryKey" parameterType="Employee">
 		update employee

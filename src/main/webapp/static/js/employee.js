@@ -51,7 +51,7 @@ $(function () {
      */
     $('#dialog').dialog({
         width: 350,
-        height: 350,
+        height: 400,
         closed: true,
         buttons: [{
             text: '保存',
@@ -64,10 +64,20 @@ $(function () {
                     formSubmitUrl = '/updateEmployee';
                 }
                 // 提交表单
-                $('#employeeForm').form('submit', {
+                $("#employeeForm").form('submit', {
                     url: formSubmitUrl,
+                    onSubmit: function (param) {
+                        /*获取选中的角色*/
+                        var values = $("#role").combobox("getValues");
+                        // console.log('选中角色 values', values);
+                        for (var i = 0; i < values.length; i++) {
+                            var rid = values[i];
+                            param["roles[" + i + "].rid"] = rid;
+                        }
+                        console.log(param);
+                        return param;
+                    },
                     success: function (data) {
-                        console.log(data);
                         try {
                             data = $.parseJSON(data);
                             if (data['success']) {
@@ -80,8 +90,8 @@ $(function () {
                                 $.messager.alert('温馨提示', data.msg);
                             }
                         } catch (err) {
-                            // console.log(err);
-                            $.messager.error('服务器发生异常，请联系管理员', err);
+                            console.log(err);
+                            $.messager.alert('服务器发生异常，请联系管理员', err);
                         }
                     },
 
@@ -100,7 +110,6 @@ $(function () {
      * 点击按钮事件监听
      */
     $('#add').click(function () {
-        $('#dialog').dialog('setTitle', '添加员工');
         // 清空上次提交的信息
         $('#employeeForm').form('clear');
         // 显示密码框
@@ -108,6 +117,7 @@ $(function () {
         /*取消密码验证*/
         $("[name='password']").validatebox({required: true});
         // 显示对话框
+        $('#dialog').dialog({'title': '添加员工'});
         $('#dialog').dialog({'closed': false});
     });
 
@@ -121,22 +131,32 @@ $(function () {
             $.messager.alert('提示', '请选择一行数据进行编辑!');
             return;
         }
+        $('#dialog').dialog("open");
         /*取消密码验证*/
         $("[name='password']").validatebox({required: false});
+        // 清空员工和角色之间关系
+        $('#role').combobox('clear');
         // 显示对话框
-        $('#dialog').dialog('setTitle', '编辑员工');
-        $('#dialog').dialog({'closed': false});
-        // 处理部门信息、管理员
+        $("#dialog").dialog({'title': '编辑员工'});
+        $('#dialog').dialog("open");
+        // 处理部门信息、管理员，回显
         if (rowData.department) {
-            rowData['department.id'] = rowData.department.name;
+            rowData['department.id'] = rowData.department.id;
         }
-        console.log(rowData);
+        // 回显管理员
         var admin = rowData['admin'];
         if (admin === null) {
-            rowData['admin'] = null;
+            rowData['admin'] = false;
         } else {
             rowData['admin'] = rowData.admin + '';
         }
+        //{id: 35, username: "老衲", password: "123", inputtime: "2021-01-19", tel: "1123123123"}
+        // 回显角色(根据当前用户id进行回显)
+        $.get('/getEmployeeRoleByEid?id=' + rowData.id, function (data) {
+            // 设置下拉列表数据回显
+            $('#role').combobox('setValues', data);
+        });
+
         // 隐藏密码框
         $('#password').hide();
         // 数据回显
@@ -195,6 +215,30 @@ $(function () {
          */
         onLoadSuccess: function () {
             $("#state").each(function (i) {
+                var span = $(this).siblings('span')[i];
+                var targetInput = $(span).find("input:first");
+                if (targetInput) {
+                    $(targetInput).attr('placeholder', $(this).attr('placeholder'));
+                }
+            });
+        }
+    })
+    /**
+     * 选择用户角色 下拉列表
+     */
+    $('#role').combobox({
+        width: 150,
+        url: '/allRole',
+        panelHeight: 'auto',
+        textField: 'rname',     /*文本显示*/
+        valueField: 'rid',    /*提交到服务器的值*/
+        multiple: true,         /*是否支持多选*/
+        editable: false,
+        /**
+         * 数据加载完成后的回调
+         */
+        onLoadSuccess: function () {
+            $("#role").each(function (i) {
                 var span = $(this).siblings('span')[i];
                 var targetInput = $(span).find("input:first");
                 if (targetInput) {

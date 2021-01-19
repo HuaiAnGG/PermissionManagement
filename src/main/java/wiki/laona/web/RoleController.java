@@ -10,6 +10,8 @@ import wiki.laona.domain.QueryVo;
 import wiki.laona.domain.Role;
 import wiki.laona.service.RoleService;
 
+import java.util.List;
+
 /**
  * @program: PermissionManagement
  * @description: 角色控制器
@@ -70,10 +72,9 @@ public class RoleController {
     @RequestMapping("/deleteRole")
     @ResponseBody
     public AjaxRes deleteRole(Long rid) {
-        System.out.println("rid = " + rid);
         AjaxRes resp = new AjaxRes();
         try {
-            // 调用业务层，保存角色
+            // 调用业务层，删除角色
             roleService.deleteRoleByRid(rid);
             resp.setSuccess(true);
             resp.setMsg("更新角色成功！");
@@ -82,5 +83,17 @@ public class RoleController {
             resp.setMsg("更新角色失败！" + e.getMessage());
         }
         return resp;
+    }
+
+    @RequestMapping("/allRole")
+    @ResponseBody
+    public List<Role> roleList() {
+        return roleService.roleList();
+    }
+
+    @RequestMapping("/getEmployeeRoleByEid")
+    @ResponseBody
+    public List<Long> getEmployeeRoleByEid(Long id) {
+        return roleService.getRoleByEid(id);
     }
 }

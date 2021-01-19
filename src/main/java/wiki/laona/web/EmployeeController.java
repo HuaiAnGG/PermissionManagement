@@ -3,6 +3,7 @@ package wiki.laona.web;
 import com.sun.org.apache.regexp.internal.RE;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import wiki.laona.domain.*;
 import wiki.laona.service.EmployeeService;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @program: PermissionManagement
@@ -50,6 +52,8 @@ public class EmployeeController {
     @RequestMapping("/saveEmployee")
     @ResponseBody
     public AjaxRes saveEmployee(Employee employee) {
+        System.out.println("==========================saveEmployee");
+        System.out.println("employee = " + employee);
         AjaxRes resp = new AjaxRes();
         try {
             employee.setState(true);
@@ -58,7 +62,8 @@ public class EmployeeController {
             resp.setMsg("保存成功！");
         } catch (Exception e) {
             resp.setSuccess(false);
-            resp.setMsg("保存失败！" + e.getMessage());
+            resp.setMsg("保存失败");
+            e.getStackTrace();
         }
         return resp;
     }
@@ -73,7 +78,8 @@ public class EmployeeController {
             ajaxRes.setMsg("更新成功!");
         } catch (Exception ex) {
             ajaxRes.setSuccess(false);
-            ajaxRes.setMsg("更新失败" + ex.getMessage());
+            ajaxRes.setMsg("更新失败");
+            ex.getStackTrace();
         }
         return ajaxRes;
     }
@@ -88,7 +94,8 @@ public class EmployeeController {
             ajaxRes.setMsg("更新成功!");
         } catch (Exception ex) {
             ajaxRes.setSuccess(false);
-            ajaxRes.setMsg("更新失败" + ex.getMessage());
+            ajaxRes.setMsg("更新失败");
+            ex.getStackTrace();
         }
         return ajaxRes;
     }

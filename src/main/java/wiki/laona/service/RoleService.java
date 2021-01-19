@@ -15,7 +15,7 @@ import java.util.List;
 public interface RoleService {
 
     /**
-     * 查询所有角色权限
+     * 查询所有角色权限(分页查询)
      * @param vo 查询 vo
      * @return 所有角色列表
      */
@@ -38,4 +38,17 @@ public interface RoleService {
      * @param rid 角色 id
      */
     void deleteRoleByRid(Long rid);
+
+    /**
+     * 获取所有角色列表
+     * @return
+     */
+    List<Role> roleList();
+
+    /**
+     * 根据员工id 获取角色对应角色
+     * @param id 员工id
+     * @return 角色rid列表
+     */
+    List<Long> getRoleByEid(Long id);
 }

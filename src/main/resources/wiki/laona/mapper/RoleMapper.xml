@@ -46,4 +46,10 @@
 		select rid, rnum, rname
 		from role
 	</select>
+	<!--根据员工id 获取角色对应角色-->
+	<select id="selectRoleByEmployeeId" resultType="long">
+		select rid
+		from role_employee_rel
+		where eid = #{id}
+	</select>
 </mapper>

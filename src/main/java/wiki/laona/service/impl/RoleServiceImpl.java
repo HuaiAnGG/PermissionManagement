@@ -67,8 +67,8 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public void updateRole(Role role) {
-        roleMapper.updateByPrimaryKey(role);
         roleMapper.deleteRoleAndPermissionRelByRid(role.getRid());
+        roleMapper.updateByPrimaryKey(role);
         // 保存权限
         for (Permission permission : role.getPermissions()) {
             roleMapper.insertRoleAndPermissionRel(role.getRid(), permission.getPid());
@@ -82,8 +82,31 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public void deleteRoleByRid(Long rid) {
+        // 删除关系
         roleMapper.deleteRoleAndPermissionRelByRid(rid);
+        // 根据 rid 删除角色
         roleMapper.deleteByPrimaryKey(rid);
+    }
+
+    /**
+     * 获取所有角色列表
+     *
+     * @return
+     */
+    @Override
+    public List<Role> roleList() {
+        return roleMapper.selectAll();
+    }
+
+    /**
+     * 根据员工id 获取角色对应角色
+     *
+     * @param id 员工id
+     * @return 角色列表
+     */
+    @Override
+    public List<Long> getRoleByEid(Long id) {
+        return roleMapper.selectRoleByEmployeeId(id);
     }
 
 }

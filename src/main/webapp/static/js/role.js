@@ -41,6 +41,7 @@ $(function () {
                             param['permissions[' + i + '].pid'] = allRows[i].pid;
                             // param['permissions[' + i + '].pname'] = allRows[i].pname;
                         }
+                        // console.log(param)
                     },
                     success: function (data) {
                         data = $.parseJSON(data);

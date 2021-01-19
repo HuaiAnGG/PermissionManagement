@@ -31,4 +31,12 @@ public interface RoleMapper {
      * @param rid 角色id
      */
     void deleteRoleAndPermissionRelByRid(Long rid);
+
+    /**
+     * 根据员工id 获取角色对应角色
+     * @param id 员工id
+     * @return 角色列表rid
+     */
+    List<Long> selectRoleByEmployeeId(Long id);
+
 }

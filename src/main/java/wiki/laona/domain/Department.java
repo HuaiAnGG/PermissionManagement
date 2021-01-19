@@ -6,6 +6,7 @@ import lombok.ToString;
 
 /**
  * 部门
+ * @author huaian
  */
 @Setter
 @Getter
