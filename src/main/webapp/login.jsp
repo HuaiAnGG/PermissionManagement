@@ -6,7 +6,27 @@
     <title>用户权限管理系统</title>
     <link href="./static/css/base.css" rel="stylesheet">
     <link href="./static/css/login.css" rel="stylesheet">
-    <script type="text/javascript" src="${pageContext.request.contextPath}/static/plugins/easyui/jquery.min.js"></script>
+    <script type="text/javascript"
+            src="${pageContext.request.contextPath}/static/plugins/easyui/jquery.min.js"></script>
+    <script>
+        $(function () {
+            $('#loginBtn').click(function () {
+                /**
+                 * Ajax发送请求, 是没有办法跳转服务当中的请求
+                 * 只能通过在浏览器当中来跳转
+                 */
+                $.post('/login', $('form').serialize(), function (data) {
+                    data = $.parseJSON(data);
+                    console.log("点记了登录，并返回数据" + data);
+                    if (data.success) {
+                        window.location.href = "/index.jsp";
+                    }else {
+                        alert(data.msg);
+                    }
+                });
+            });
+        });
+    </script>
 
 </head>
 <body class="white">
@@ -29,11 +49,11 @@
                     <form>
                         <div class="lg-username input-item clearfix">
                             <i class="iconfont"></i>
-                            <input type="text" value="itlike" name="username" placeholder="请用户名">
+                            <input type="text" value="laona" name="username" placeholder="请输入用户名">
                         </div>
                         <div class="lg-password input-item clearfix">
                             <i class="iconfont"></i>
-                            <input type="password" value="1234" name="password"  placeholder="请输入密码">
+                            <input type="password" value="123" name="password" placeholder="请输入密码">
                         </div>
 
                         <div class="enter">
@@ -53,12 +73,12 @@
     <div class="ft-inner">
         <div class="about-us">
             <a href="javascript:;">关于我们</a>
-            <a href="http://www.itlike.com/">撩课学院</a>
+            <a href="http://blog.laona.wiki/">老衲博客</a>
             <a href="javascript:;">服务条款</a>
             <a href="javascript:;">联系方式</a>
         </div>
-        <div class="address"> 课程内容版权均归 撩课教育 所有 &nbsp;编号：210019&nbsp;&nbsp;Copyright&nbsp;©&nbsp;2019&nbsp;-&nbsp;2020&nbsp;撩课&nbsp;版权所有</div>
-        <div class="other-info">建议使用IE8及以上版本浏览器&nbsp;沪ICP备&nbsp;18036896号&nbsp;E-mail：itlike@126.com</div>
+        <div class="address"> 课程内容版权均归 老衲 所有 &nbsp;编号：202101&nbsp;&nbsp;Copyright&nbsp;©&nbsp;2019&nbsp;-&nbsp;2020&nbsp;老衲&nbsp;版权所有</div>
+        <div class="other-info">建议使用IE8及以上版本浏览器&nbsp;粤ICP备&nbsp;18888888号&nbsp;E-mail：laonane@qq.com</div>
     </div>
 </div>
 

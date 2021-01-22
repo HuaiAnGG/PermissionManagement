@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context.xsd
+    http://www.springframework.org/schema/aop
+    http://www.springframework.org/schema/aop/spring-aop.xsd
+     http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd">
+	
+	<!--表单过滤器-->
+	<bean id="myFormFilter" class="wiki.laona.web.filter.MyFormFilter"/>
+	
+	<!-- 配置shiro过滤器 -->
+	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
+		<!--
+			index
+			其它的请求  会判断 当前有没有认证过
+			默认情况 ,           没有认证,会跳转到login.jsp
+			如果配置了 loginUrl  没有认证  执行对应的login请求
+			login
+			loginUrl:如果发现请求是loginUrl值  会去做认证
+			配置登录认证的路径
+		-->
+		<property name="loginUrl" value="/login"/>
+		<!--配置表单过滤器-->
+		<property name="filters">
+			<map>
+				<entry key="authc" value-ref="myFormFilter"/>
+			</map>
+		</property>
+		
+		<property name="securityManager" ref="securityManager"/>
+		<!-- 配置shiro过滤器pattern -->
+		<property name="filterChainDefinitions">
+			<value>
+				/static/** = anon   <!--不需要登录验证-->
+				/login.jsp = anon   <!--不需要登录验证-->
+				/logout = logout    <!--注销-->
+				/**=authc           <!--除指定请求外,其它所有的请求都需要身份验证-->
+			</value>
+		</property>
+	</bean>
+	
+	
+	<!-- 会话管理器 -->
+	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
+		<!-- session的失效时长，单位毫秒 -->
+		<property name="globalSessionTimeout" value="600000"/>
+		<!-- 删除失效的session -->
+		<property name="deleteInvalidSessions" value="true"/>
+		
+		<!--去掉URL中的JSESSIONID-->
+		<property name="sessionIdUrlRewritingEnabled" value="false"/>
+		
+		<!-- 定时检查失效的session -->
+		<property name="sessionValidationSchedulerEnabled" value="true"/>
+	</bean>
+	
+	<!--自定义 realm-->
+	<bean id="employeeRealm" class="wiki.laona.web.realm.EmployeeRealm">
+		<!--添加凭证匹配器-->
+		<property name="credentialsMatcher" ref="credentialsMaster"/>
+	</bean>
+	
+	<!-- 缓存管理器 -->
+	<bean id="ehCache" class="org.apache.shiro.cache.ehcache.EhCacheManager">
+		<property name="cacheManagerConfigFile" value="classpath:shiro-ehcache.xml"/>
+	</bean>
+	
+	<!--凭证匹配器-->
+	<bean id="credentialsMaster" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+		<!--散列算法-->
+		<property name="hashAlgorithmName" value="md5"/>
+		<!--散列次数-->
+		<property name="hashIterations" value="3"/>
+	</bean>
+	
+	<!-- 配置shiro安全管理器 -->
+	<bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+		<!--注入 realm
+		-->
+		<property name="realm" ref="employeeRealm"/>
+		<!-- 注入缓存器 -->
+		<property name="cacheManager" ref="ehCache"/>
+	</bean>
+	
+	<!--
+		 配置为true即使用cglib继承的方式,
+		 false为jdk的接口动态代理   控制器没有实现接口
+	 -->
+	<aop:config proxy-target-class="true"/>
+	
+	<!-- 使用第三方去扫描shiro的注解 -->
+	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor ">
+		<property name="securityManager" ref="securityManager"/>
+	</bean>
+
+</beans>

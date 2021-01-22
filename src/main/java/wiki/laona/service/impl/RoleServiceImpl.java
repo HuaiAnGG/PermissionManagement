@@ -82,8 +82,10 @@ public class RoleServiceImpl implements RoleService {
      */
     @Override
     public void deleteRoleByRid(Long rid) {
-        // 删除关系
+        // 删除角色和权限关系
         roleMapper.deleteRoleAndPermissionRelByRid(rid);
+        // 删除角色和用户关系
+        roleMapper.deleteRoleAndEmployeeRelByRid(rid);
         // 根据 rid 删除角色
         roleMapper.deleteByPrimaryKey(rid);
     }

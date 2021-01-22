@@ -17,6 +17,12 @@
 		from role_permisson_rel
 		where rid = #{rid,jdbcType=BIGINT}
 	</delete>
+	<!--删除角色和用户关系-->
+	<delete id="deleteRoleAndEmployeeRelByRid">
+		delete
+		from role_employee_rel
+		where rid = #{rid,jdbcType=BIGINT}
+	</delete>
 	<insert id="insert" parameterType="wiki.laona.domain.Role" useGeneratedKeys="true" keyColumn="rid"
 	        keyProperty="rid">
 		insert into role (rid, rnum, rname)

@@ -2,6 +2,7 @@ package wiki.laona.service.impl;
 
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
+import org.apache.shiro.crypto.hash.Md5Hash;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -47,6 +48,9 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public void save(Employee employee) {
+        // 对密码进行加密
+        Md5Hash pwdMd5Hash = new Md5Hash(employee.getPassword(), employee.getUsername(), 2);
+        employee.setPassword(pwdMd5Hash.toString());
         // 保存角色
         employeeMapper.insert(employee);
         // 保存员工、角色关系
@@ -80,6 +84,32 @@ public class EmployeeServiceImpl implements EmployeeService {
     @Override
     public void updateEmployeeState(Long id) {
         employeeMapper.updateStateByPrimaryKey(id);
+    }
+
+    @Override
+    public Employee getEmployeeByUsername(String username) {
+
+        return employeeMapper.getEmployeeByUsername(username);
+    }
+    /**
+     * 根据客户id获取角色编号名称
+     * @param eid 角色id
+     * @return 角色列表
+     */
+    @Override
+    public List<String> getRoleListByEid(Long eid) {
+        return employeeMapper.getRolesByEid(eid);
+    }
+
+    /**
+     * 根据客户id 查询权限资源名称
+     *
+     * @param id 客户id
+     * @return 权限列表
+     */
+    @Override
+    public List<String> getPermissionListByRid(Long id) {
+        return employeeMapper.getPermissionListByRid(id);
     }
 
 }

@@ -16,6 +16,7 @@ public interface RoleService {
 
     /**
      * 查询所有角色权限(分页查询)
+     *
      * @param vo 查询 vo
      * @return 所有角色列表
      */
@@ -23,30 +24,35 @@ public interface RoleService {
 
     /**
      * 保存角色权限
+     *
      * @param role 角色实体
      */
     void saveRole(Role role);
 
     /**
      * 更新角色权限
+     *
      * @param role 角色实体
      */
     void updateRole(Role role);
 
     /**
      * 删除角色权限和关系
+     *
      * @param rid 角色 id
      */
     void deleteRoleByRid(Long rid);
 
     /**
      * 获取所有角色列表
+     *
      * @return
      */
     List<Role> roleList();
 
     /**
      * 根据员工id 获取角色对应角色
+     *
      * @param id 员工id
      * @return 角色rid列表
      */

@@ -1,18 +1,22 @@
 package wiki.laona.web;
 
-import com.sun.org.apache.regexp.internal.RE;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.apache.shiro.authz.AuthorizationException;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import wiki.laona.domain.*;
+import org.springframework.web.method.HandlerMethod;
+import wiki.laona.domain.AjaxRes;
+import wiki.laona.domain.Employee;
+import wiki.laona.domain.PageListRes;
+import wiki.laona.domain.QueryVo;
 import wiki.laona.service.EmployeeService;
 
-import java.util.List;
-import java.util.Map;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
 
 /**
  * @program: PermissionManagement
@@ -32,6 +36,10 @@ public class EmployeeController {
      * @return 页面地址
      */
     @RequestMapping("/employee")
+    /**
+     * @RequiresPermissions 需要有对应的权限才能访问接口，需要配置 Shiro 注解扫描
+     */
+    @RequiresPermissions("employee:index")
     public String employee() {
         return "employee";
     }
@@ -51,15 +59,15 @@ public class EmployeeController {
 
     @RequestMapping("/saveEmployee")
     @ResponseBody
+    @RequiresPermissions("employee:add")
     public AjaxRes saveEmployee(Employee employee) {
-        System.out.println("==========================saveEmployee");
-        System.out.println("employee = " + employee);
         AjaxRes resp = new AjaxRes();
         try {
             employee.setState(true);
             employeeService.save(employee);
             resp.setSuccess(true);
             resp.setMsg("保存成功！");
+
         } catch (Exception e) {
             resp.setSuccess(false);
             resp.setMsg("保存失败");
@@ -70,6 +78,7 @@ public class EmployeeController {
 
     @RequestMapping("/updateEmployee")
     @ResponseBody
+    @RequiresPermissions("employee:edit")
     public AjaxRes updateEmployee(Employee employee) {
         AjaxRes ajaxRes = new AjaxRes();
         try {
@@ -86,6 +95,7 @@ public class EmployeeController {
 
     @RequestMapping("/updateEmployeeState")
     @ResponseBody
+    @RequiresPermissions("employee:delete")
     public AjaxRes updateEmployeeState(Long id) {
         AjaxRes ajaxRes = new AjaxRes();
         try {
@@ -98,5 +108,28 @@ public class EmployeeController {
             ex.getStackTrace();
         }
         return ajaxRes;
+    }
+
+    /**
+     * 处理 shiro 异常
+     *
+     * @param method 发生异常的方法
+     */
+    @ExceptionHandler(AuthorizationException.class)
+    public void handlerShiroException(HandlerMethod method, HttpServletResponse response) throws IOException {
+        // 没有权限就提示用户
+        // 判断是不是 json请求，如果是则返回 json 给浏览器
+        ResponseBody methodAnnotation = method.getMethodAnnotation(ResponseBody.class);
+        if (methodAnnotation != null) {
+            // ajax 请求
+            AjaxRes ajaxRes = new AjaxRes();
+            ajaxRes.setSuccess(false);
+            ajaxRes.setMsg("您没有操作权限！");
+            response.setCharacterEncoding("utf-8");
+            String respStr = new ObjectMapper().writeValueAsString(ajaxRes);
+            response.getWriter().println(respStr);
+        } else {
+            response.sendRedirect("withoutPermission.jsp");
+        }
     }
 }

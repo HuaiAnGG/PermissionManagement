@@ -29,7 +29,7 @@ $(function () {
             handler: function () {
                 var submitUrl = '/saveRole';
                 var rid = $("[name='rid']").val();
-                if (rid){
+                if (rid) {
                     submitUrl = '/updateRole';
                 }
                 $('#myform').form('submit', {

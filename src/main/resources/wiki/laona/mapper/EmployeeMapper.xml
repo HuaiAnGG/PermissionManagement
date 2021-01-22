@@ -98,4 +98,32 @@
 		<include refid="where_sql"/>
 		order by e.id
 	</select>
+	<!--通过用户名查询该用户-->
+	<select id="getEmployeeByUsername" resultType="wiki.laona.domain.Employee">
+		select *
+		from employee
+		where username = #{username}
+	</select>
+	<!--根据客户id获取角色编号名称-->
+	<select id="getRolesByEid" resultType="java.lang.String">
+		select rnum
+		from role_employee_rel as e
+			     left join role r on r.rid = e.rid
+		where eid = #{eid}
+	</select>
+	<!--
+		根据客户id 查询权限资源名称:
+		1. 查询出所有角色和权限
+		2. 筛选当前用户有什么角色
+	-->
+	<select id="getPermissionListByRid" resultType="java.lang.String">
+		select DISTINCT p.presource
+		from role_permisson_rel rp
+			     left JOIN permission p on p.pid = rp.pid
+		where rp.rid in (
+			select re.rid
+			from role_employee_rel as re
+			where re.eid = #{eid}
+		)
+	</select>
 </mapper>

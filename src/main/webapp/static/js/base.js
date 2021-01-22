@@ -7,10 +7,10 @@ $.extend($.fn.linkbutton.methods, {
      * 激活选项（覆盖重写）
      * @param {Object} jq
      */
-    enable: function(jq){
-        return jq.each(function(){
+    enable: function (jq) {
+        return jq.each(function () {
             var state = $.data(this, 'linkbutton');
-           
+
             if ($(this).hasClass('l-btn-disabled')) {
                 var itemData = state._eventsStore;
                 //恢复超链接
@@ -34,8 +34,8 @@ $.extend($.fn.linkbutton.methods, {
      * 禁用选项（覆盖重写）
      * @param {Object} jq
      */
-    disable: function(jq){
-        return jq.each(function(){
+    disable: function (jq) {
+        return jq.each(function () {
             var state = $.data(this, 'linkbutton');
             if (!state._eventsStore)
                 state._eventsStore = {};

@@ -14,6 +14,7 @@ public interface DepartmentService {
 
     /**
      * 获取所有部门信息
+     *
      * @return 部门信息列表
      */
     List<Department> getAllDepartment();

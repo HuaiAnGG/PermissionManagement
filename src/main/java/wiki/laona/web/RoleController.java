@@ -77,10 +77,10 @@ public class RoleController {
             // 调用业务层，删除角色
             roleService.deleteRoleByRid(rid);
             resp.setSuccess(true);
-            resp.setMsg("更新角色成功！");
+            resp.setMsg("删除角色成功！");
         } catch (Exception e) {
             resp.setSuccess(false);
-            resp.setMsg("更新角色失败！" + e.getMessage());
+            resp.setMsg("删除角色失败！" + e.getMessage());
         }
         return resp;
     }

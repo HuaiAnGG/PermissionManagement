@@ -16,9 +16,10 @@
             width: 238px;
             height: 20px;
         }
+
         #dialog #myform .panel-title {
             color: black;
-            margin-top: -5px ;
+            margin-top: -5px;
         }
     </style>
 </head>
@@ -37,12 +38,16 @@
         <table align="center" style="border-spacing: 20px 30px">
             <input type="hidden" name="rid">
             <tr align="center">
-                <td>角色编号: <input type="text" name="rnum" class="easyui-validatebox" ></td>
-                <td>角色名称: <input type="text" name="rname" class="easyui-validatebox" ></td>
+                <td>角色编号: <input type="text" name="rnum" class="easyui-validatebox"></td>
+                <td>角色名称: <input type="text" name="rname" class="easyui-validatebox"></td>
             </tr>
             <tr>
-                <td><div id="role_data1"></div></td>
-                <td><div id="role_data2"></div></td>
+                <td>
+                    <div id="role_data1"></div>
+                </td>
+                <td>
+                    <div id="role_data2"></div>
+                </td>
             </tr>
         </table>
     </form>

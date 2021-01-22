@@ -19,4 +19,4 @@ import java.util.List;
 public class PageListRes {
     private Long total;
     private List<?> rows = new ArrayList<>();
- }
+}

@@ -21,6 +21,7 @@ public interface RoleMapper {
 
     /**
      * 保存角色和权限关系
+     *
      * @param rid 角色id
      * @param pid 权限id
      */
@@ -28,15 +29,22 @@ public interface RoleMapper {
 
     /**
      * 根据角色id 删除所有关系表中的数据
+     *
      * @param rid 角色id
      */
     void deleteRoleAndPermissionRelByRid(Long rid);
 
     /**
      * 根据员工id 获取角色对应角色
+     *
      * @param id 员工id
      * @return 角色列表rid
      */
     List<Long> selectRoleByEmployeeId(Long id);
 
+    /**
+     * 删除角色和用户关系
+     * @param rid 角色id
+     */
+    void deleteRoleAndEmployeeRelByRid(Long rid);
 }

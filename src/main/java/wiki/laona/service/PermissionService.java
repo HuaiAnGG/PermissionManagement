@@ -14,12 +14,14 @@ public interface PermissionService {
 
     /**
      * 获取所有的权限
+     *
      * @return 所有权限
      */
     List<Permission> getAllPermission();
 
     /**
      * 根据角色 id 获取所有权限
+     *
      * @param rid 角色id
      * @return 权限列表
      */

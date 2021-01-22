@@ -1,6 +1,7 @@
 package wiki.laona.mapper;
 
 import java.util.List;
+
 import wiki.laona.domain.Department;
 
 public interface DepartmentMapper {

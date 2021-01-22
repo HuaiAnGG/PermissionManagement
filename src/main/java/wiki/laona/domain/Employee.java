@@ -13,6 +13,7 @@ import java.util.List;
 
 /**
  * 员工实体
+ *
  * @author huaian
  */
 @ToString
@@ -31,6 +32,7 @@ public class Employee {
 
     /**
      * 入职时间
+     *
      * @ JsonFormat(pattern = "yyyy-MM-dd", timezone = "GMT+8")      转成实体时，规则，时区
      * @ DateTimeFormat(pattern = "yyyy-MM-dd")                      表单提交时候规则
      */

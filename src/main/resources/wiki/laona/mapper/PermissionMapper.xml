@@ -30,7 +30,7 @@
 		select pid, pname, presource
 		from permission
 	</select>
-
+	
 	<!--根据角色 id 获取所有权限-->
 	<select id="selectPermissionByRid" resultType="Permission">
 		select *
