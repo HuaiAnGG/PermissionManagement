@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="wiki.laona.mapper.MenuMapper">
+	<resultMap id="BaseResultMap" type="wiki.laona.domain.Menu">
+		<id column="id" jdbcType="BIGINT" property="id"/>
+		<result column="text" jdbcType="VARCHAR" property="text"/>
+		<result column="url" jdbcType="VARCHAR" property="url"/>
+		<!--<result column="parent_id" jdbcType="BIGINT" property="parentId" />-->
+		<association property="parent" javaType="Menu" columnPrefix="m_">
+			<id column="id" jdbcType="BIGINT" property="id"/>
+			<result column="text" jdbcType="VARCHAR" property="text"/>
+			<result column="url" jdbcType="VARCHAR" property="url"/>
+		</association>
+	</resultMap>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
+		delete
+		from menu
+		where id = #{id,jdbcType=BIGINT}
+	</delete>
+	<insert id="insert" parameterType="wiki.laona.domain.Menu">
+		insert into menu (id, text, url,
+		                  parent_id)
+		values (#{id,jdbcType=BIGINT}, #{text,jdbcType=VARCHAR}, #{url,jdbcType=VARCHAR},
+		        #{parent.id})
+	</insert>
+	<update id="updateByPrimaryKey" parameterType="wiki.laona.domain.Menu">
+		update menu
+		set text      = #{text,jdbcType=VARCHAR},
+		    url       = #{url,jdbcType=VARCHAR},
+		    parent_id = #{parent.id,jdbcType=BIGINT}
+		where id = #{id,jdbcType=BIGINT}
+	</update>
+	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
+		select id, text, url, parent_id
+		from menu
+		where id = #{id,jdbcType=BIGINT}
+	</select>
+	<select id="selectAll" resultMap="BaseResultMap">
+		select m1.id,
+		       m1.text,
+		       m1.url,
+		       m2.id   as m_id,
+		       m2.text as m_text,
+		       m2.url  as m_url
+		from menu m1
+			     left join menu m2 on m1.parent_id = m2.id
+		order by m1.id desc
+	</select>
+</mapper>

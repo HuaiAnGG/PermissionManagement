@@ -101,7 +101,8 @@
 		
 		<!--<table tableName="employee"></table>-->
 		<!--<table tableName="department"></table>-->
-		<table tableName="role"></table>
-		<table tableName="permission"></table>
+		<!--<table tableName="role"></table>-->
+		<!--<table tableName="permission"></table>-->
+		<table tableName="menu"></table>
 	</context>
 </generatorConfiguration>
