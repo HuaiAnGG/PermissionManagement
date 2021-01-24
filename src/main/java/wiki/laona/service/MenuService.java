@@ -1,5 +1,6 @@
 package wiki.laona.service;
 
+import wiki.laona.domain.AjaxRes;
 import wiki.laona.domain.Menu;
 import wiki.laona.domain.PageListRes;
 import wiki.laona.domain.QueryVo;
@@ -32,17 +33,27 @@ public interface MenuService {
      * @param menu 菜单
      * @return
      */
-    int saveMenu(Menu menu);
+    AjaxRes saveMenu(Menu menu);
 
     /**
      * 更新菜单信息
      * @param menu 菜单信息
+     * @return AjaxRes
      */
-    void updateMenu(Menu menu);
+    AjaxRes updateMenu(Menu menu);
 
     /**
      * 根据id 删除菜单信息
      * @param id
+     * @return AjaxRes
      */
-    void deleteMenuById(long id);
+    AjaxRes deleteMenuById(long id);
+
+    /**
+     * 获取属性菜单
+     *
+     * @return 菜单数据
+     */
+    List<Menu> getTreeMenu();
+
 }

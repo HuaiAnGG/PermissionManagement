@@ -11,6 +11,13 @@
 			<result column="text" jdbcType="VARCHAR" property="text"/>
 			<result column="url" jdbcType="VARCHAR" property="url"/>
 		</association>
+		<association property="permission" javaType="Permission">
+			<id column="pid" jdbcType="BIGINT" property="pid"/>
+			<result column="pname" jdbcType="VARCHAR" property="pname"/>
+			<result column="presource" jdbcType="VARCHAR" property="presource"/>
+		</association>
+		
+		<collection property="children" ofType="Menu" select="getChildrenTree" column="id"/>
 	</resultMap>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.Long">
 		delete
@@ -30,6 +37,12 @@
 		    parent_id = #{parent.id,jdbcType=BIGINT}
 		where id = #{id,jdbcType=BIGINT}
 	</update>
+	<!--删除菜单与父类对应关系-->
+	<update id="updateMenuRelByMid">
+		update menu
+		set parent_id = null
+		where parent_id = #{id}
+	</update>
 	<select id="selectByPrimaryKey" parameterType="java.lang.Long" resultMap="BaseResultMap">
 		select id, text, url, parent_id
 		from menu
@@ -45,5 +58,27 @@
 		from menu m1
 			     left join menu m2 on m1.parent_id = m2.id
 		order by m1.id desc
+	</select>
+	<select id="selectParentByPid" resultType="java.lang.Long">
+		select parent_id
+		from menu
+		where id = #{id}
+	</select>
+	<!-- 获取树形菜单-->
+	<select id="getTreeMenu" resultMap="BaseResultMap">
+		select *
+		from menu as m
+			     LEFT JOIN permission as p
+			               on m.permission_id = p.pid
+		where parent_id is null
+	</select>
+	
+	<!--根据树形菜单跟列表的id获得子分类-->
+	<select id="getChildrenTree" resultMap="BaseResultMap">
+		select *
+		from menu as m
+			     LEFT JOIN permission as p
+			               on m.permission_id = p.pid
+		where parent_id = #{id}
 	</select>
 </mapper>

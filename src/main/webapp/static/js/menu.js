@@ -58,7 +58,7 @@ $(function () {
      */
     $('#add').click(function () {
         // 清空上次提交的信息
-        $('#employeeForm').form('clear');
+        $('#menu_form').form('clear');
 
         // 显示对话框
         $("#menu_dialog").dialog({'title': '添加菜单'});
@@ -84,7 +84,7 @@ $(function () {
         // 处理id、名称、父菜单、父类id等信息
         if (rowData.parent) {
             rowData['parent.id'] = rowData.parent.id;
-        }else {
+        } else {
             // 没有数据回显 placeholder
             $("#parentMenu").each(function (i) {
                 var span = $(this).siblings('span')[i];
@@ -117,6 +117,7 @@ $(function () {
                         if (data['success']) {
                             // 刷新数据
                             $('#menu_datagrid').datagrid('reload');
+                            $('#parentMenu').combobox('reload');
                             $.messager.alert('温馨提示', data.msg);
                         } else {
                             $.messager.alert('温馨提示', data.msg);
@@ -139,6 +140,11 @@ $(function () {
         var id = $("[name='id']").val();
         var menuFromUrl = "/saveMenu";
         if (id) {
+            var parent_id = $("[name='parent.id']").val();
+            if (id === parent_id) {
+                $.messager.alert('温馨提示', '不能设置自己为父菜单！');
+                return;
+            }
             menuFromUrl = "/updateMenu";
         }
         // 提交表单
@@ -152,6 +158,7 @@ $(function () {
                         // 关闭对话框
                         $('#menu_dialog').dialog('close');
                         // 刷新数据
+                        $('#parentMenu').combobox('reload');
                         $('#menu_datagrid').datagrid('reload');
                     } else {
                         $.messager.alert('温馨提示', data.msg);
