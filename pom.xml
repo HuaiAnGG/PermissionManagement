@@ -129,13 +129,13 @@
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjrt</artifactId>
-			<version>1.7.4</version>
+			<version>1.9.6</version>
 		</dependency>
 		<!--aspectj weaver-->
 		<dependency>
 			<groupId>org.aspectj</groupId>
 			<artifactId>aspectjweaver</artifactId>
-			<version>1.7.4</version>
+			<version>1.9.5</version>
 		</dependency>
 		
 		<!-- cglib -->

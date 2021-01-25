@@ -14,9 +14,11 @@ import wiki.laona.domain.Employee;
 import wiki.laona.domain.PageListRes;
 import wiki.laona.domain.QueryVo;
 import wiki.laona.service.EmployeeService;
+import wiki.laona.util.Loggers;
 
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 
 /**
  * @program: PermissionManagement
@@ -88,7 +90,7 @@ public class EmployeeController {
         } catch (Exception ex) {
             ajaxRes.setSuccess(false);
             ajaxRes.setMsg("更新失败");
-            ex.getStackTrace();
+            ex.printStackTrace();
         }
         return ajaxRes;
     }

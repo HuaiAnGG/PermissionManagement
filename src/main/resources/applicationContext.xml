@@ -22,5 +22,13 @@
 	
 	<!--导入shiro 配置文件-->
 	<import resource="classpath:application-shiro.xml"/>
-
+	
+	<!--aop配置 日志配置-->
+	<bean id="logAspect" class="wiki.laona.aspect.LogAspect"></bean>
+	<aop:config>
+		<aop:pointcut expression="execution(* wiki.laona.service.*.*(..))" id="logPoint"/>
+		<aop:aspect ref="logAspect">
+			<aop:after method="writeLog" pointcut-ref="logPoint"/>
+		</aop:aspect>
+	</aop:config>
 </beans>

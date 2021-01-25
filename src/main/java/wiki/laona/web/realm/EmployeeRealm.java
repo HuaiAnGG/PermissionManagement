@@ -37,14 +37,11 @@ public class EmployeeRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken token) throws AuthenticationException {
-        Loggers.info("EmployeeRealm.doGetAuthenticationInfo 来到了认证");
         String username = (String) token.getPrincipal();
-        Loggers.info("用户名：" + username);
         /**
          * 到数据库查询是否有该用户
          */
         Employee employee = employeeService.getEmployeeByUsername(username);
-        System.out.println("employee = " + employee);
         if (employee == null) {
             return null;
         }
@@ -72,7 +69,6 @@ public class EmployeeRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principal) {
-        Loggers.info("EmployeeRealm.doGetAuthorizationInfo 来到了授权");
         /**
          * 1. 获取用户信息
          */

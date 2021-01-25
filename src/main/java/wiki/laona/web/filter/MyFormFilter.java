@@ -36,7 +36,6 @@ public class MyFormFilter extends FormAuthenticationFilter {
     @Override
     protected boolean onLoginSuccess(AuthenticationToken token, Subject subject,
                                      ServletRequest request, ServletResponse response) throws Exception {
-        Loggers.info("MyFormFilter.onLoginSuccess");
         response.setCharacterEncoding("utf-8");
         AjaxRes resp = new AjaxRes();
         resp.setSuccess(true);

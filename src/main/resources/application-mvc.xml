@@ -21,11 +21,11 @@
 	</bean>
 	
 	<!--配置请求拦截器,拦截所有请求-->
-	<!--<mvc:interceptors>-->
-	<!--    <mvc:interceptor>-->
-	<!--        <mvc:mapping path="/*"/>-->
-	<!--        <bean class="wiki.laona.web.interceptor.RequestInterceptor"></bean>-->
-	<!--    </mvc:interceptor>-->
-	<!--</mvc:interceptors>-->
+	<mvc:interceptors>
+	    <mvc:interceptor>
+	        <mvc:mapping path="/*"/>
+		    <bean class="wiki.laona.web.interceptor.RequestInterceptor"/>
+	    </mvc:interceptor>
+	</mvc:interceptors>
 
 </beans>

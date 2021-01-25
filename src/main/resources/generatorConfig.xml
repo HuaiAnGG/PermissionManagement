@@ -103,6 +103,6 @@
 		<!--<table tableName="department"></table>-->
 		<!--<table tableName="role"></table>-->
 		<!--<table tableName="permission"></table>-->
-		<table tableName="menu"></table>
+		<table tableName="system_log"></table>
 	</context>
 </generatorConfiguration>
