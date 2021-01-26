@@ -293,4 +293,65 @@ $(function () {
          */
         $('#dg').datagrid('load', {keyword: keyword});
     });
+
+    /**
+     * 导出 Excel
+     */
+    $('#excelOut').click(function () {
+        window.open('/downloadExcel');
+    });
+
+    /**
+     * 导入 Excel
+     */
+    $('#excelIn').click(function () {
+        $("#excelUpload").dialog('open');
+    });
+
+    /**
+     * excel 弹出框
+     */
+    $("#excelUpload").dialog({
+        width: 260,
+        height: 180,
+        title: "导入Excel",
+        buttons: [{
+            text: '保存',
+            handler: function () {
+                $('#uploadExcelForm').form('submit', {
+                    url: '/uploadExcelFile',
+                    success: function (data) {
+                        try {
+                            data = $.parseJSON(data);
+                            if (data['success']) {
+                                $.messager.alert('温馨提示', data.msg);
+                                // 关闭对话框
+                                $('#excelUpload').dialog('close');
+                                // 刷新数据
+                                $('#dg').datagrid('reload');
+                            } else {
+                                $.messager.alert('温馨提示', data.msg);
+                            }
+                        } catch (err) {
+                            console.log(err);
+                            $.messager.alert('服务器发生异常，请联系管理员', err);
+                        }
+                    }
+                })
+            }
+        }, {
+            text: '关闭',
+            handler: function () {
+                $("#excelUpload").dialog("close");
+            }
+        }],
+        closed: true
+    })
+
+    /**
+     * 下载 Excel 模板
+     */
+    $('#downloadTml').click(function () {
+        window.open('/downloadExcelTemplate');
+    });
 });

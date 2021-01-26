@@ -48,9 +48,16 @@ public class EmployeeServiceImpl implements EmployeeService {
      */
     @Override
     public void save(Employee employee) {
-        // 对密码进行加密
-        Md5Hash pwdMd5Hash = new Md5Hash(employee.getPassword(), employee.getUsername(), 3);
-        employee.setPassword(pwdMd5Hash.toString());
+        String password = employee.getPassword();
+        if (password != null) {
+            // 对密码进行加密
+            Md5Hash pwdMd5Hash = new Md5Hash(employee.getPassword(), employee.getUsername(), 3);
+            employee.setPassword(pwdMd5Hash.toString());
+        } else {
+            // 设置默认密码
+            Md5Hash pwdMd5Hash = new Md5Hash("123 ", employee.getUsername(), 3);
+            employee.setPassword(pwdMd5Hash.toString());
+        }
         // 保存角色
         employeeMapper.insert(employee);
         // 保存员工、角色关系
@@ -91,8 +98,10 @@ public class EmployeeServiceImpl implements EmployeeService {
 
         return employeeMapper.getEmployeeByUsername(username);
     }
+
     /**
      * 根据客户id获取角色编号名称
+     *
      * @param eid 角色id
      * @return 角色列表
      */

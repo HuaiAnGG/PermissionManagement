@@ -13,7 +13,17 @@
     <script src="${pageContext.request.contextPath}/static/js/employee.js"></script>
 </head>
 <body>
-
+<%--导入Excel 文件选择--%>
+<div id="excelUpload">
+    <form method="post" enctype="multipart/form-data" id="uploadExcelForm">
+        <tabel>
+            <tr>
+                <td><input type="file" name="excel" style="width: 180px; margin-top: 20px; margin-left: 5px;"></td>
+                <td><a href="javascript:void(0);" id="downloadTml">下载模板</a></td>
+            </tr>
+        </tabel>
+    </form>
+</div>
 <%--工具菜单--%>
 <div id="tb">
     <shiro:hasPermission name="employee:add">
@@ -27,8 +37,10 @@
     </shiro:hasPermission>
     <a href="#" class="easyui-linkbutton" data-options="iconCls:'icon-reload',plain:true" id="reload">刷新</a>
     <%--搜索框--%>
-    <input type="text" name="keyword" style="width: 200px; height: 30px;padding-left: 5px;">
+    <input type="text" name="keyword" style="width: 150px; height: 30px;padding-left: 5px;">
     <a class="easyui-linkbutton" iconCls="icon-search" id="searchbtn">查询</a>
+    <a class="easyui-linkbutton" iconCls="icon-edit" id="excelOut">导出</a>
+    <a class="easyui-linkbutton" iconCls="icon-edit" id="excelIn">导入</a>
 </div>
 <%--数据表格--%>
 <table id="dg"></table>
